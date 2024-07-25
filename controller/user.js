@@ -147,4 +147,21 @@ router.get('/getuser',isAuthenticated,asyncHandler(async(req,res,next)=>{
     }
 }))
 
+// logout user
+router.get('/logout',isAuthenticated,asyncHandler(async(req,res,next)=>{
+    try {
+         res.cookie("token",null,{
+            expires:new Date(Date.now()),
+            httpOnly:true,
+         })
+         res.status(200).json({
+            success:true,
+            message:"Logged out successfully"
+         });
+    } catch (error) {
+        return next(new ErrorHandler(error.message, 500))
+    }
+
+}))
+
 export default router;
